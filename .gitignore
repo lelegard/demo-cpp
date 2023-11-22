@@ -1,0 +1,11 @@
+.#*
+*.tmp
+tmp
+bin
+.vs
+*.vcxproj.user
+*.zip
+*.tar
+*.gz
+*.tgz
+*.xz
