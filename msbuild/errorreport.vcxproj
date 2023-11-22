@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
   <ImportGroup Label="PropertySheets">
-    <Import Project="configurations.props"/>
+    <Import Project="configurations.props" />
   </ImportGroup>
-
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{a48c9f57-70eb-4153-80ab-b60287d149f5}</ProjectGuid>
+    <ProjectGuid>{61B9F338-7443-445D-9927-1EBF0227CE77}</ProjectGuid>
     <RootNamespace>$(ProjectName)</RootNamespace>
   </PropertyGroup>
-
   <ImportGroup Label="PropertySheets">
-    <Import Project="options.props"/>
+    <Import Project="options.props" />
   </ImportGroup>
-
 </Project>
