@@ -21,6 +21,10 @@ public:
         _out(out), _message(message), _object(object)
     {
     }
+    error_report(std::ostream& out, const char* message, const fs::path& object) :
+        _out(out), _message(message == nullptr ? "" : message), _object(object.string())
+    {
+    }
     error_report(error_report&) = delete;
     error_report(error_report&&) = delete;
     error_report operator=(error_report&) = delete;
