@@ -1,15 +1,16 @@
 default: execs
 
-SRCDIR    = src
-BINDIR    = bin
-SOURCES  := $(wildcard $(SRCDIR)/*.cpp)
-HEADERS  := $(wildcard $(SRCDIR)/*.h)
-OBJECTS  := $(patsubst $(SRCDIR)/%.cpp,$(BINDIR)/%.o,$(SOURCES))
-EXECS    := $(addprefix $(BINDIR)/,$(filter-out $(notdir $(basename $(HEADERS))),$(notdir $(basename $(SOURCES)))))
-CXXFLAGS += -std=c++17 -Werror -Wall -Wextra -Wno-unused-parameter
-CPPFLAGS += $(addprefix -I,$(wildcard /opt/homebrew/include /usr/local/include))
-LDFLAGS  += $(addprefix -L,$(wildcard /opt/homebrew/lib /usr/local/lib))
-LDLIBS   += -lm
+SRCDIR     = src
+BINDIR     = bin
+SOURCES   := $(wildcard $(SRCDIR)/*.cpp)
+HEADERS   := $(wildcard $(SRCDIR)/*.h)
+OBJECTS   := $(patsubst $(SRCDIR)/%.cpp,$(BINDIR)/%.o,$(SOURCES))
+EXECS     := $(addprefix $(BINDIR)/,$(filter-out $(notdir $(basename $(HEADERS))),$(notdir $(basename $(SOURCES)))))
+CXXFLAGS  += -std=c++17 -Werror -Wall -Wextra -Wno-unused-parameter
+CPPFLAGS  += $(addprefix -I,$(wildcard /opt/homebrew/include /usr/local/include))
+LDFLAGS   += $(addprefix -L,$(wildcard /opt/homebrew/lib /usr/local/lib))
+LDLIBS    += -lm
+MAKEFLAGS += --no-print-directory
 
 # Old gcc versions.
 LDLIBS += $(if $(wildcard /usr/lib/gcc/*/*/libstdc++fs.*),-lstdc++fs)
@@ -27,9 +28,11 @@ $(BINDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c -o $@ $<
 clean:
 	rm -rf bin .vs *.tmp *.log __pycache__
+clang:
+	@$(MAKE) CPP=clang++ CXX=clang++
 
 # Regenerate implicit dependencies.
-ifneq ($(if $(MAKECMDGOALS),$(filter-out clean listvars cxxmacros,$(MAKECMDGOALS)),true),)
+ifneq ($(if $(MAKECMDGOALS),$(filter-out clean listvars clang cxxmacros,$(MAKECMDGOALS)),true),)
     -include $(patsubst $(SRCDIR)/%.cpp,$(BINDIR)/%.d,$(SOURCES))
 endif
 $(BINDIR)/%.d: $(SRCDIR)/%.cpp

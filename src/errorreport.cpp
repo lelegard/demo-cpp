@@ -56,11 +56,11 @@ int main(int argc, char* argv[])
     fs::path nodir(dir);
     nodir /= "nonexistent";
     
-    std::cout << "is_directory(\"" << dir << "\")" << std::endl;
+    std::cout << "is_directory(\"" << dir.string() << "\")" << std::endl;
     bool status = fs::is_directory(dir, &error_report(std::cout, "isdir", dir));
     std::cout << "result: " << status << std::endl << std::endl;
     
-    std::cout << "is_directory(\"" << nodir << "\")" << std::endl;
+    std::cout << "is_directory(\"" << nodir.string() << "\")" << std::endl;
     status = fs::is_directory(nodir, &error_report(std::cout, "isdir", nodir));
     std::cout << "result: " << status << std::endl;
 }
