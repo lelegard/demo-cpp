@@ -12,8 +12,8 @@ class error_report: public std::error_code
 {
 private:
     std::ostream& _out;
-    const std::string& _message;
-    const std::string& _object;
+    const std::string _message;
+    const std::string _object;
 public:
     error_report(std::ostream& out = std::cout,
                  const std::string& message = std::string(),
