@@ -2,12 +2,15 @@ default: execs
 
 SRCDIR     = src
 BINDIR     = bin
-SOURCES   := $(wildcard $(SRCDIR)/*.cpp)
-HEADERS   := $(wildcard $(SRCDIR)/*.h)
-OBJECTS   := $(patsubst $(SRCDIR)/%.cpp,$(BINDIR)/%.o,$(SOURCES))
-EXECS     := $(addprefix $(BINDIR)/,$(filter-out $(notdir $(basename $(HEADERS))),$(notdir $(basename $(SOURCES)))))
-CXXFLAGS  += -std=c++20 -Werror -Wall -Wextra -Wno-unused-parameter
+LIBFILE    = $(BINDIR)/libdemo.a
+SYSTEM     = $(shell uname -s)
+SOURCES   := $(notdir $(basename $(wildcard $(SRCDIR)/*.cpp)))
+HEADERS   := $(notdir $(basename $(wildcard $(SRCDIR)/*.h)))
+LIBOBJS   := $(patsubst %,$(BINDIR)/%.o,$(filter $(HEADERS),$(SOURCES)))
+EXECS     := $(patsubst %,$(BINDIR)/%,$(filter-out $(HEADERS),$(SOURCES)))
+CXXFLAGS  += -std=c++17 -Werror -Wall -Wextra -Wno-unused-parameter
 CPPFLAGS  += $(addprefix -I,$(wildcard /opt/homebrew/include /usr/local/include))
+ARFLAGS    = rc$(if $(findstring Darwin,$(SYSTEM)),,U)
 LDFLAGS   += $(addprefix -L,$(wildcard /opt/homebrew/lib /usr/local/lib))
 LDLIBS    += -lm
 MAKEFLAGS += --no-print-directory
@@ -21,7 +24,9 @@ LDFLAGS  += $(if $(DEBUG),-g)
 
 execs: $(EXECS)
 	@true
-$(BINDIR)/%: $(BINDIR)/%.o
+$(LIBFILE): $(LIBOBJS)
+	$(AR) $(ARFLAGS) $@ $^
+$(BINDIR)/%: $(BINDIR)/%.o $(LIBFILE)
 	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(BINDIR)
@@ -33,7 +38,7 @@ clang:
 
 # Regenerate implicit dependencies.
 ifneq ($(if $(MAKECMDGOALS),$(filter-out clean listvars clang cxxmacros,$(MAKECMDGOALS)),true),)
-    -include $(patsubst $(SRCDIR)/%.cpp,$(BINDIR)/%.d,$(SOURCES))
+    -include $(patsubst %,$(BINDIR)/%.d,$(SOURCES))
 endif
 $(BINDIR)/%.d: $(SRCDIR)/%.cpp
 	@mkdir -p $(BINDIR)
