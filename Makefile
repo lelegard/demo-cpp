@@ -6,7 +6,7 @@ SOURCES   := $(wildcard $(SRCDIR)/*.cpp)
 HEADERS   := $(wildcard $(SRCDIR)/*.h)
 OBJECTS   := $(patsubst $(SRCDIR)/%.cpp,$(BINDIR)/%.o,$(SOURCES))
 EXECS     := $(addprefix $(BINDIR)/,$(filter-out $(notdir $(basename $(HEADERS))),$(notdir $(basename $(SOURCES)))))
-CXXFLAGS  += -std=c++17 -Werror -Wall -Wextra -Wno-unused-parameter
+CXXFLAGS  += -std=c++20 -Werror -Wall -Wextra -Wno-unused-parameter
 CPPFLAGS  += $(addprefix -I,$(wildcard /opt/homebrew/include /usr/local/include))
 LDFLAGS   += $(addprefix -L,$(wildcard /opt/homebrew/lib /usr/local/lib))
 LDLIBS    += -lm
