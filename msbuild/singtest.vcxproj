@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3F9DC15B-5C94-4A48-954F-7C277F478EBE}</ProjectGuid>
+  </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="configurations.props" />
+  </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\atexit.cpp" />
+    <ClCompile Include="..\src\obj.cpp" />
+    <ClInclude Include="..\src\atexit.h" />
+    <ClInclude Include="..\src\obj.h" />
+    <ClInclude Include="..\src\singleton.h" />
+  </ItemGroup>
+</Project>
