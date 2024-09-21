@@ -1,4 +1,5 @@
 #include "atexit.h"
+#include <cstdlib>
 #include <vector>
 #include <mutex>
 
