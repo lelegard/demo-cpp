@@ -44,6 +44,12 @@ $(BINDIR)/%.d: $(SRCDIR)/%.cpp
 	@mkdir -p $(BINDIR)
 	$(CXX) -MM $(CPPFLAGS) -MT $(BINDIR)/$*.o -MT $@ $< >$@ || rm -f $@
 
+# Execute a program using valgrind.
+VGFLAGS += --quiet --leak-check=full --show-leak-kinds=all
+$(patsubst $(BINDIR)/%,valgrind-%,$(EXECS)):
+	@$(MAKE) DEBUG=true $(patsubst valgrind-%,$(BINDIR)/%,$@)
+	valgrind $(VGFLAGS) $(patsubst valgrind-%,$(BINDIR)/%,$@)
+
 # Display make variables for debug purposes.
 listvars:
 	@true
